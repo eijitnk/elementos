@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 300;
+        }
+
+        body {
+            font-family: "Poppins";
+            font-weight: 300;
+            background-color: rgb(245, 245, 245);
+        }
+
+        .container {
+            max-width: 1100px;
+            padding: 0 1rem 3rem;
+            margin: auto;
+        }
+
+        h1 {
+            margin: 3rem 0;
+            font-weight: 400;
+            font-family: poppins;
+        }
+
+        .accordion-header {
+            background-color: rgb(235, 235, 235);
+            cursor: pointer;
+            color: black;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            transition: all 0.4s ease-in-out;
+        }
+
+        .accordion-header h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .accordion-body {
+            transition: all 0.35s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+            background-color: rgb(252, 252, 252);
+        }
+
+        .accordion-body p {
+            padding: 1rem 1.5rem;
+            line-height: 1.8;
+        }
+
+        .accordion+.accordion {
+            margin-top: 1rem;
+        }
+
+        .accordion-icon {
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .accordion.active .accordion-header {
+            background-color: rgb(40, 134, 114);
+            color: white;
+        }
+
+        .accordion.active .accordion-icon {
+            transform: rotate(-180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Accordion</h1>
+
+        <div class="accordions-wrapper">
+            <div class="accordion">
+                <div class="accordion-header">
+                    <h4>Accordion #1</h4>
+                    <i class="la la-angle-up accordion-icon"></i>
+                </div>
+
+                <div class="accordion-body">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet
+                        eaque sint distinctio, cupiditate placeat iusto perferendis magnam
+                        possimus sapiente! Delectus aspernatur numquam laborum impedit
+                        corporis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header">
+                    <h4>Accordion #2</h4>
+                    <i class="la la-angle-up accordion-icon"></i>
+                </div>
+
+                <div class="accordion-body">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet
+                        eaque sint distinctio, cupiditate placeat iusto perferendis magnam
+                        possimus sapiente! Delectus aspernatur numquam laborum impedit
+                        corporis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header">
+                    <h4>Accordion #3</h4>
+                    <i class="la la-angle-up accordion-icon"></i>
+                </div>
+
+                <div class="accordion-body">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet
+                        eaque sint distinctio, cupiditate placeat iusto perferendis magnam
+                        possimus sapiente! Delectus aspernatur numquam laborum impedit
+                        corporis.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+        ActivatingFirstAccordion();
+
+        function ActivatingFirstAccordion() {
+            accordionHeaders[0].parentElement.classList.add("active");
+            accordionHeaders[0].nextElementSibling.style.maxHeight =
+                accordionHeaders[0].nextElementSibling.scrollHeight + "px";
+        }
+
+        function toggleActiveAccordion(e, header) {
+            const activeAccordion = document.querySelector(".accordion.active");
+            const clickedAccordion = header.parentElement;
+            const accordionBody = header.nextElementSibling;
+
+            if (activeAccordion && activeAccordion != clickedAccordion) {
+                activeAccordion.querySelector(".accordion-body").style.maxHeight = 0;
+                activeAccordion.classList.remove("active");
+            }
+
+            clickedAccordion.classList.toggle("active");
+
+            if (clickedAccordion.classList.contains("active")) {
+                accordionBody.style.maxHeight = accordionBody.scrollHeight + "px";
+            } else {
+                accordionBody.style.maxHeight = 0;
+            }
+        }
+
+        accordionHeaders.forEach(function (header) {
+            header.addEventListener("click", function (event) {
+                toggleActiveAccordion(event, header);
+            });
+        });
+
+        function resizeActiveAccordionBody() {
+            const activeAccordionBody = document.querySelector(
+                ".accordion.active .accordion-body"
+            );
+            if (activeAccordionBody)
+                activeAccordionBody.style.maxHeight =
+                    activeAccordionBody.scrollHeight + "px";
+        }
+
+        window.addEventListener("resize", function () {
+            resizeActiveAccordionBody();
+        });
+
+    </script>
+</body>
+
+</html>

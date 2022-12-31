@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        body {
+            margin: 2em;
+        }
+
+        .table-bordered.card {
+            border: 0 !important;
+        }
+
+        thead input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+        tfoot tr, thead tr {
+            background: lightblue;
+        }
+
+        tfoot td {
+            font-weight:bold;
+        }
+
+        td:last-child {
+            text-align:center;
+        }
+
+        .card thead {
+            display: none;
+        }
+
+        .card tbody tr {
+            float: left;
+            width: 25em;
+            margin: 0.5em;
+            border: 1px solid #bfbfbf;
+            border-radius: 0.5em;
+            background-color: transparent !important;
+            box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+        }
+
+        .card tbody tr td {
+            display: block;
+            border: 0;
+        }
+
+        p {
+            text-align: center;
+            color: limegreen;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000;
+            margin-bottom: 1.2em;
+        }
+
+        @media print {
+            @page {
+                size: landscape;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="alert alert-danger" role="alert">
+        <strong>Info!</strong> Adicionar linha e Excluir linha estão funcionando. Editar linha exibe modal com informações de células de linha.
+    </div>
+
+    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Number</th>
+                <th>Amount</th>
+                <th>Progress</th>
+                <th style="text-align:center;width:100px;">Adicionar linha 
+                    <button type="button" data-func="dt-add" class="btn btn-success btn-xs dt-add">
+					    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				    </button>
+                </th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Alphabet puzzle</td>
+                <td>2016/01/15</td>
+                <td>212</td>
+                <td data-order="1000.5">1000.50</td>
+                <td>100%</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Game station</td>
+                <td>2016/01/31</td>
+                <td>75</td>
+                <td data-order="1834">1834</td>
+                <td>23.599</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Chemistry set</td>
+                <td>2016/01/23</td>
+                <td>160</td>
+                <td data-order="1500">1500</td>
+                <td>85.2 %</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Smartphone</td>
+                <td>2016/02/26</td>
+                <td>350</td>
+                <td data-order="1200.38">1200.38</td>
+                <td>110.2%</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Smartphone</td>
+                <td>2016/02/26</td>
+                <td>350</td>
+                <td data-order="1200.38">1200.38</td>
+                <td>99 %</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Smartphone</td>
+                <td>2016/02/26</td>
+                <td>350</td>
+                <td data-order="1200.38">1200.38</td>
+                <td>0%</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Smartphone</td>
+                <td>2016/02/26</td>
+                <td>350</td>
+                <td data-order="1200.38">1200.38</td>
+                <td>75%</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Smartphone</td>
+                <td>2016/02/26</td>
+                <td>350</td>
+                <td data-order="1200.38">1200.38</td>
+                <td>0%</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Smartphone</td>
+                <td>2016/02/26</td>
+                <td>350</td>
+                <td data-order="1200.38">1200.38</td>
+                <td>0%</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs dt-delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Totals</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Row information</h4>
+                </div>
+                <div class="modal-body">
+                
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/percentageBars.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            document.title = "Card View DataTable";
+
+            $("#example tfoot th").each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Buscar ' + title + '" />');
+            });
+
+            $("#example").DataTable({
+                dom: '<"dt-buttons"Bf><"clear">lirtp',
+                paging: true,
+                autoWidth: true,
+                "language": {
+                    "sProcessing":    "Procesando...",
+                    "sLengthMenu":    "Exibir _MENU_ registros por página",
+                    "sZeroRecords":   "Nenhum resultado encontrado",
+                    "sEmptyTable":    "Nenhum resultado encontrado",
+                    "sInfo":          "Exibindo do _START_ até _END_ de um total de _TOTAL_ registros",
+                    "sInfoEmpty":     "Exibindo do 0 até 0 de um total de 0 registros",
+                    "sInfoFiltered":  "(Filtrado de um total de _MAX_ registros)",
+                    "sInfoPostFix":   "",
+                    "sSearch":        "Buscar:",
+                    "sUrl":           "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Carregando...",
+                    "oPaginate": {
+                        "sFirst":    "Primeiro",
+                        "sLast":    "Último",
+                        "sNext":    "Próximo",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Ativar para ordenar a columna de maneira ascendente",
+                        "sSortDescending": ": Ativar para ordenar a columna de maneira descendente"
+                    }
+                },
+                buttons: [
+                    {
+                        titleAttr: "excel",
+                        extend: 'excel',
+                        text: '<i class="fa-solid fa-file-excel"></i>',
+                    },
+                    {
+                        titleAttr: "CSV",
+                        extend: 'csv',
+                        text: '<i class="fa-solid fa-file-csv"></i>'
+                    },
+                    {
+                        titleAttr: "copy",
+                        extend: 'copy',
+                        text: '<i class="fa fa-clone"></i>'
+                    },
+                    {
+                        titleAttr: "pdf",
+                        extend: 'pdf',
+                        text: '<i class="fa-solid fa-file-pdf"></i>',
+                        orientation: 'landscape',
+                        pageSize: 'A3',
+                        exportOptions: { columns: ':visible', searching: 'applied', ordering: 'applied' }
+                    },
+                    {
+                        titleAttr: "visibilidade",
+                        extend: 'colvis',
+                        text: '<i class="fa fa-eye"></i>',
+                        columnText: function (dt, idx, title) {
+                            return (idx + 1) + ': ' + title
+                        }
+                    },
+                    {
+                        titleAttr: "imprimir",
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i>',
+                        customize: function (win) {
+                            var last = null;
+                            var current = null;
+                            var body = [];
+                            var css = `$@@page { size: landscape; }`,
+                                head = win.document.head || win.document.getElementByTagName('head')[0],
+                                style = win.document.createElement('style');
+                            style.type = 'text/css';
+                            style.media = 'print';
+
+                            if (style.styleSheet) {
+                                style.styleSheet.cssText = css;
+                            } else {
+                                style.appendChild(win.document.createTextNode(css))
+                            }
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 5,
+                        render: $.fn.dataTable.render.percentBar('round','#fff', '#FF9CAB', '#FF0033', '#FF9CAB', 0, 'solid')
+                    },
+                    {
+                        targets: 6,
+                        orderable: false,
+                    }
+                ],
+                footerCallback: function ( row, data, start, end, display ) {
+                    var api = this.api();
+                    nb_cols = api.columns().nodes().length;
+                    var j = 3;
+                    while(j < nb_cols){
+                        var pageTotal = api
+                        .column( j, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return Number(a) + Number(b);
+                        }, 0 );
+                    // Update footer
+                    $(api.column(j).footer()).html(pageTotal);
+                        j++;
+                    } 
+			    },
+                initComplete: function (settings, json) {
+                    var footer = $("#example tfoot tr");
+                    $("#example thead").append(footer);
+
+                    $(".dt-buttons .btn-group").append(
+                        '<a id="cv" class="btn btn-primary" href="#">CARD VIEW</a>'
+                    );
+
+                    $("#cv").on("click", function () {
+                        if ($("#example").hasClass("card")) {
+                            $(".colHeader").remove();
+                        } else {
+                            var labels = [];
+                            $("#example thead th").each(function () {
+                                labels.push($(this).text());
+                            });
+                            $("#example tbody tr").each(function () {
+                                $(this)
+                                    .find("td")
+                                    .each(function (column) {
+                                        $("<span class='colHeader'>" + labels[column] + ":</span>").prependTo(
+                                            $(this)
+                                        );
+                                    });
+                            });
+                        }
+                        $("#example").toggleClass("card");
+                    });
+                }
+            });
+
+            // Apply the search
+            $("#example thead").on("keyup", "input", function () {
+                table.column($(this).parent().index())
+                .search(this.value)
+                .draw();
+            });
+
+            //Add row button
+            $('.dt-add').each(function () {
+                $(this).on('click', function(evt){
+
+                    var rowData = [];
+                    var table = $('#example').DataTable();
+
+                    var info = table.page.info();
+
+                    rowData.push(info.recordsTotal+1);
+                    rowData.push('New Order');
+
+                    var date1 = new Date(2016,01,01);
+                    var date2 = new Date(2018,12,31);
+                    var rndDate = new Date(+date1 + Math.random() * (date2 - date1));//.toLocaleDateString();
+                    rowData.push(rndDate.getFullYear()+'/'+(rndDate.getMonth()+1)+'/'+rndDate.getDate());
+                    rowData.push('NEW');
+                    rowData.push('NEW');
+                    rowData.push(Math.floor(Math.random() * 2000) + 1);
+                    rowData.push(`<button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-xs dt-delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>`);
+                    
+                    table.row.add(rowData).draw(false);
+
+                    $('.dt-edit').off('click');
+                    $('.dt-delete').off('click');
+
+                    $('.dt-edit').each(function () {
+                        $(this).on('click', function(evt){
+                            $this = $(this);
+                            var dtRow = $this.parents('tr');
+                            $('div.modal-body').innerHTML='';
+                            $('div.modal-body').append('Row index: '+dtRow[0].rowIndex+'<br/>');
+                            $('div.modal-body').append('Number of columns: '+dtRow[0].cells.length+'<br/>');
+                            for(var i=0; i < dtRow[0].cells.length; i++){
+                                $('div.modal-body').append('Cell (column, row) '+dtRow[0].cells[i]._DT_CellIndex.column+', '+dtRow[0].cells[i]._DT_CellIndex.row+' => innerHTML : '+dtRow[0].cells[i].innerHTML+'<br/>');
+                            }
+                            $('#myModal').modal('show');
+                        });
+                    });
+                    $('.dt-delete').each(function () {
+                        $(this).on('click', function(evt){
+                            $this = $(this);
+                            var dtRow = $this.parents('tr');
+                            if(confirm("Tem certeza de que deseja excluir esta linha?")){
+                                var table = $('#example').DataTable();
+                                table.row(dtRow[0].rowIndex-1).remove().draw( false );
+                            }
+                        });
+                    });
+                });
+            });
+
+            $('.dt-edit').each(function () {
+                $(this).on('click', function(evt){
+                    $this = $(this);
+                    var dtRow = $this.parents('tr');
+                    $('div.modal-body').innerHTML='';
+                    $('div.modal-body').append('Índice de linha: '+dtRow[0].rowIndex+'<br/>');
+                    $('div.modal-body').append('Numero de columas: '+dtRow[0].cells.length+'<br/>');
+                    for(var i=0; i < dtRow[0].cells.length; i++){
+                        $('div.modal-body').append('Celula (coluna, linha) '+dtRow[0].cells[i]._DT_CellIndex.column+', '+dtRow[0].cells[i]._DT_CellIndex.row+' => innerHTML : '+dtRow[0].cells[i].innerHTML+'<br/>');
+                    }
+                    $('#myModal').modal('show');
+                });
+            });
+
+            $('.dt-delete').each(function () {
+                $(this).on('click', function(evt){
+                    $this = $(this);
+                    var dtRow = $this.parents('tr');
+                    if(confirm("Tem certeza de que deseja excluir esta linha?")){
+                        var table = $('#example').DataTable();
+                        table.row(dtRow[0].rowIndex-1).remove().draw( false );
+                    }
+                });
+            });
+            $('#myModal').on('hidden.bs.modal', function (evt) {
+                $('.modal .modal-body').empty();
+            });
+        });
+
+        function getBase64FromImageUrl(url) {
+            var img = new Image();
+                img.crossOrigin = "anonymous";
+            img.onload = function () {
+                var canvas = document.createElement("canvas");
+                canvas.width =this.width;
+                canvas.height =this.height;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(this, 0, 0);
+                var dataURL = canvas.toDataURL("image/png");
+                return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            };
+            img.src = url;
+        }
+
+    </script>
+</body>
+</html>

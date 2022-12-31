@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTable Dynamic</title>
+    <style>
+        #data-table-example {
+            padding: 20px;
+        }
+
+        textarea {
+            min-height: 200px;
+            min-width: 200px
+        }
+
+        #test-output {
+            background-color: lightgrey;
+            padding: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+</head>
+
+<body>
+    <div id="data-table-example">
+        <input id="col-name" type="text" />
+        <button id="add-column">Add Column</button>
+        <button id="add-row">Add Row</button>
+        <div id="test-table"></div>
+        <button id="remove-row">Remove Row</button>
+        <p></p>
+        <button id="show-data">Show Data</button>
+        <div id="test-output"></div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-select/1.3.1/dataTables.select.min.js"></script>
+<script>
+    (function () {
+        let dataTable = new DataTable();
+        dataTable.addColumn("First Name");
+        dataTable.addColumn("Last Name");
+        dataTable.addRow({ "First Name": "Steve", "Test": "None" });
+        dataTable.updateTableAt("test-table")
+
+        function DataTable(data = []) {
+            let columnHeaders = data && data[0] ?
+                new Set(Object.keys(data[0]))
+                :
+                new Set();
+
+            this.addColumn = function addColumn(header) {
+                columnHeaders.add(header);
+            }
+            this.removeHeader = function removeHeader(header) {
+                columnHeaders.delete(header);
+            }
+            this.addRow = function addRow(row = {}) {
+                data.push(row);
+                return data.length;
+            };
+            this.updateRow = function updateRow(index, row = {}) {
+                data[index] = row;
+            };
+            this.removeRow = function removeRow(index) {
+                delete (data[index]);
+                data = data.filter(d => d);
+            };
+            this.getRow = function getRow(index) {
+                let row = {};
+                columnHeaders.forEach(
+                    (header) => {
+                        row[header] = data[index][header] || null;
+                    }
+                );
+                return row;
+            };
+            this.getData = function getData() {
+                return data.map((d, i) => this.getRow(i));
+            };
+            this.updateTableAt = function updateTable(containerID) {
+                let testTable = document.getElementById(containerID);
+                testTable.innerHTML = "";
+                testTable.appendChild(this.toHTMLTable());
+            };
+            this.toHTMLTable = function () {
+                let htmlTable = makeHTMLTable(this.getData(), columnHeaders);
+                htmlTable.onkeyup = function (e) {
+                    const cell = e.target.parentElement;
+                    const row = cell.parentElement;
+                    const table = row.parentElement.parentElement;
+                    const colHeader = table.tHead.rows[0].cells[cell.cellIndex].innerText;
+                    data[row.rowIndex - 1][colHeader] = e.target.value;
+                };
+                return htmlTable;
+            };
+
+            this.size = function getLength() { return data.length };
+        };
+
+        function makeHTMLTable(tableData, headers, disabled = false) {
+            if (headers === undefined) {
+                headers = tableData && tableData[0] ? Object.keys(tableData[0]) : []
+            }
+            let columnHeaders = Array.from(headers);
+
+            let table = document.createElement("table");
+            let tableBody = document.createElement("tbody");
+            let tableHead = document.createElement("thead");
+            let row = document.createElement("tr");
+            for (header of columnHeaders) {
+                let headerCell = document.createElement("th");
+                let cellText = document.createTextNode(`${header}`);
+
+                headerCell.appendChild(cellText);
+                row.appendChild(headerCell);
+            }
+            tableHead.appendChild(row);
+            table.appendChild(tableHead);
+
+            for (let rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
+                row = document.createElement("tr");
+
+                for (header of columnHeaders) {
+                    let cell = document.createElement("td");
+                    cell.headers = header;
+                    //            let cellText = document.createTextNode(`${tableData[rowIndex][header]||"None"}`);
+                    let cellInput = document.createElement("input");
+                    cellInput.type = "text";
+                    cellInput.value = tableData[rowIndex][header] || "";
+                    cellInput.disabled = disabled;
+                    cell.appendChild(cellInput);
+                    row.appendChild(cell);
+                }
+                tableBody.appendChild(row);
+            }
+            table.appendChild(tableBody);
+
+            return table;
+        }
+
+        document.getElementById("add-row").addEventListener(
+            "click",
+            (function addRowAndUpdate(dataTable) {
+                return function () {
+                    dataTable.addRow({});
+                    dataTable.updateTableAt("test-table");
+                }
+            })(dataTable)
+        );
+
+        document.getElementById("add-column").addEventListener(
+            "click",
+            (function addColAndUpdate(dataTable) {
+                return function () {
+                    const newCol = document.getElementById("col-name").value;
+                    if (newCol) {
+                        dataTable.addColumn(newCol);
+                        dataTable.updateTableAt("test-table");
+                    }
+                }
+            })(dataTable)
+        );
+
+        document.getElementById("show-data").addEventListener(
+            "click",
+            (function showData(dataTable) {
+                return function () {
+                    document.getElementById("test-output").innerText = dataTable.getData().map(JSON.stringify).join("\n");
+                }
+            })(dataTable)
+        );
+
+        document.getElementById("remove-row").addEventListener(
+            "click",
+            (function removeRowAndUpdate(dataTable) {
+                return function () {
+                    dataTable.removeRow(dataTable.size() - 1);
+                    dataTable.updateTableAt("test-table");
+                }
+            })(dataTable)
+        );
+
+    })();
+
+
+
+</script>
+
+</html>
