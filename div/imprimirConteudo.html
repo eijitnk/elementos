@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @media print {
+
+            /* esconder tudo */
+            body * {
+                visibility: hidden;
+            }
+
+            /* exibir somente o que tem na div para imprimir */
+            #imprimir,
+            #imprimir * {
+                visibility: visible;
+            }
+
+            #imprimir {
+                position: fixed;
+                left: 0;
+                top: 0;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <p>Outro conteúdo</p>
+        <p>Este conteúdo não aparece na impressão</p>
+        <section id="imprimir">
+            <p>Teste de impressão</p>
+            <p>Outro conteúdo para imprimir</p>
+        </section>
+    </div>
+</body>
+
+</html>

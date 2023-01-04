@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copiar texto para área de transferência</title>
+</head>
+
+<body>
+    <p>Clique no botão para copiar o texto do campo de texto. Tente colar o texto (por exemplo, ctrl+v) depois em um
+        janela diferente, para ver o efeito.</p>
+
+    <input type="text" value="Hello World" id="myInput">
+    <button onclick="myFunction()">Copiar texto</button>
+
+    <script>
+        function myFunction() {
+            var copyText = document.getElementById("myInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            alert("Texto copiado: " + copyText.value);
+        }
+    </script>
+</body>
+
+</html>
